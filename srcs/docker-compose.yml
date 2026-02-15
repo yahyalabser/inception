@@ -1,0 +1,53 @@
+services:
+  nginx :
+    container_name: nginx
+    build:
+      context: ./requirements/nginx
+      dockerfile: Dockerfile
+      args:
+
+    networks:
+      - docker-network
+    restart: always
+
+  worldpress:
+    container_name: worldpress
+    build:
+      context: ./requirements/worldpress
+      dockerfile: Dockerfile
+      args:
+
+    networks:
+      - docker-network
+    restart: always
+
+  mariadb :
+    container_name: mariadb
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile
+      args:
+    
+    networks:
+      - docker-network
+    restart: always
+
+
+volumes:
+  worldpress_db :
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/${USER}/data/worldpress
+
+  mariadb_db:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/${USER}/data/mariadb
+
+
+networks:
+  docker-network:
