@@ -4,37 +4,69 @@ services:
     build:
       context: ./requirements/nginx
       dockerfile: Dockerfile
-      args:
-
     networks:
       - docker-network
+    volumes:
+      - wordpress_db:/var/www/html
+    ports:
+      - "443:443"
+    depends_on:
+      - wordpress
     restart: always
 
-  worldpress:
-    container_name: worldpress
+  wordpress:
+    container_name: wordpress
     build:
-      context: ./requirements/worldpress
+      context: ./requirements/wordpress
       dockerfile: Dockerfile
-      args:
-
+    environment:
+      WP_ADMIN: ${WP_ADMIN}
+      WP_ADMIN_PASS: ${WP_ADMIN_PASS}
+      WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
+      WP_USER: ${WP_USER}
+      WP_USER_EMAIL: ${WP_USER_EMAIL}
+      WP_USER_PASS: ${WP_USER_PASS}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - wordpress_db:/var/www/html
+    expose:
+      - "9000"
     networks:
       - docker-network
+    depends_on:
+      mariadb:
+        condition: service_healthy
     restart: always
 
-  mariadb :
+  mariadb:
     container_name: mariadb
     build:
       context: ./requirements/mariadb
       dockerfile: Dockerfile
-      args:
-    
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    expose:
+      - '3306'
+    volumes:
+      - mariadb_db:/var/lib/mysql 
     networks:
       - docker-network
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$$MYSQL_ROOT_PASSWORD"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
     restart: always
 
 
 volumes:
-  worldpress_db :
+  wordpress_db :
     driver: local
     driver_opts:
       type: none
@@ -51,3 +83,4 @@ volumes:
 
 networks:
   docker-network:
+    driver: bridge
