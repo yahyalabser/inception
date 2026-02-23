@@ -13,7 +13,7 @@ RUN mkdir -p /etc/nginx/ssl \
         -days 365 \
         -subj "/C=MO/L=KH/O=1337/CN=ylabser.42.fr"
 
-COPY conf/nginx.conf /etc/nginx/nginx.conf
+COPY conf/nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 443
 
