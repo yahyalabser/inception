@@ -16,7 +16,7 @@ fi
 if ! wp core is-installed --allow-root 2>/dev/null; then
     wp core install \
         --url=$DOMAIN_NAME \
-        # --title="Inception 42" \
+        --title="Inception 42" \
         --admin_user=$WP_ADMIN \
         --admin_password=$WP_ADMIN_PASS \
         --admin_email=$WP_ADMIN_EMAIL \
