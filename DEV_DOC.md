@@ -101,4 +101,4 @@ Both volumes use `driver: local` with `type: none` / `o: bind` so that data pers
 - All Dockerfiles must be based on the **penultimate stable** Debian or Alpine release.
 - No pre-built images from Docker Hub (except the base OS image).
 - Containers must restart automatically on failure (`restart: on-failure`).
-- Passwords and secrets must not b
+- Passwords and secrets must not be stored in Dockerfiles; use environment variables via `.env`.
