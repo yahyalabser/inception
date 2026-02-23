@@ -102,3 +102,20 @@ Both volumes use `driver: local` with `type: none` / `o: bind` so that data pers
 - No pre-built images from Docker Hub (except the base OS image).
 - Containers must restart automatically on failure (`restart: on-failure`).
 - Passwords and secrets must not be stored in Dockerfiles; use environment variables via `.env`.
+
+## Environment & Secrets Setup
+
+Before running the project, create the required credential files (all are gitignored):
+
+```bash
+# 1. Create the .env file from the template in the README
+cp srcs/.env.example srcs/.env   # then fill in your values
+
+# 2. Create secret files (used as a reference; full Docker secrets require Swarm mode)
+echo "your_db_password"      > secrets/db_password.txt
+echo "your_root_password"    > secrets/db_root_password.txt
+```
+
+Example files (`.example` suffix) are committed to the repository as templates. The real files (without `.example`) are gitignored and must be created locally.
+
+**Never commit real passwords to the repository.** The `.gitignore` already excludes `srcs/.env`, `secrets/db_password.txt`, `secrets/db_root_password.txt`, and `secrets/credentials.txt`.
