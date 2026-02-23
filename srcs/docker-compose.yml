@@ -1,58 +1,11 @@
 services:
-  nginx :
-    container_name: nginx
-    build:
-      context: ./requirements/nginx
-      dockerfile: Dockerfile
-    networks:
-      - docker-network
-    volumes:
-      - wordpress_db:/var/www/html
-    ports:
-      - "443:443"
-    depends_on:
-      - wordpress
-    restart: always
-
-  wordpress:
-    container_name: wordpress
-    build:
-      context: ./requirements/wordpress
-      dockerfile: Dockerfile
-    environment:
-      WP_ADMIN: ${WP_ADMIN}
-      WP_ADMIN_PASS: ${WP_ADMIN_PASS}
-      WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
-      WP_USER: ${WP_USER}
-      WP_USER_EMAIL: ${WP_USER_EMAIL}
-      WP_USER_PASS: ${WP_USER_PASS}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    volumes:
-      - wordpress_db:/var/www/html
-    expose:
-      - "9000"
-    networks:
-      - docker-network
-    depends_on:
-      mariadb:
-        condition: service_healthy
-    restart: always
-
   mariadb:
     container_name: mariadb
     build:
       context: ./requirements/mariadb
       dockerfile: Dockerfile
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    expose:
-      - '3306'
+    image: mariadb:inception
+    env_file: .env
     volumes:
       - mariadb_db:/var/lib/mysql 
     networks:
@@ -62,8 +15,40 @@ services:
       interval: 5s
       timeout: 3s
       retries: 10
-    restart: always
+    restart: on-failure
+  nginx :
+    container_name: nginx
+    build:
+      context: ./requirements/nginx
+      dockerfile: Dockerfile
+    image: nginx:inception
+    networks:
+      - docker-network
+    volumes:
+      - wordpress_db:/var/www/html
+    ports:
+      - "443:443"
+    depends_on:
+      - wordpress
+    restart: on-failure
 
+  wordpress:
+    container_name: wordpress
+    build:
+      context: ./requirements/wordpress
+      dockerfile: Dockerfile
+    image: wordpress:inception
+    env_file: .env
+    volumes:
+      - wordpress_db:/var/www/html
+    expose:
+      - "9000"
+    networks:
+      - docker-network
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    restart: on-failure
 
 volumes:
   wordpress_db :
@@ -71,14 +56,14 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/${USER}/data/worldpress
+      device: /home/yahyalb/data/wordpress
 
   mariadb_db:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /home/${USER}/data/mariadb
+      device: /home/yahyalb/data/mariadb
 
 
 networks:

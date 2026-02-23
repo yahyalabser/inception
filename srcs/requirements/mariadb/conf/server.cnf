@@ -1,24 +1,3 @@
 [mysqld]
-# Réseau
 bind-address = 0.0.0.0
 port = 3306
-skip-name-resolve
-
-# Chemins
-datadir = /var/lib/mysql
-socket = /var/run/mysqld/mysqld.sock
-pid-file = /var/run/mysqld/mysqld.pid
-
-# Encodage
-character-set-server = utf8mb4
-collation-server = utf8mb4_unicode_ci
-
-# Sécurité
-local-infile = 0
-
-[client]
-default-character-set = utf8mb4
-socket = /var/run/mysqld/mysqld.sock
-
-[mysql]
-default-character-set = utf8mb4

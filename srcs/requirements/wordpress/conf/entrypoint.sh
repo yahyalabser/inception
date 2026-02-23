@@ -28,4 +28,4 @@ if ! wp core is-installed --allow-root 2>/dev/null; then
         --allow-root
 fi
 
-php-fpm8.4 -F
+php-fpm7.4 -F

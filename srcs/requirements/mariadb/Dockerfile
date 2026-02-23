@@ -8,8 +8,8 @@ RUN mkdir -p /var/run/mysqld /var/log/mysql \
     && chown -R mysql:mysql /var/run/mysqld /var/log/mysql /var/lib/mysql \
     && chmod 777 /var/run/mysqld
 
-COPY ./conf/server.cnf /etc/mysql/mariadb.conf.d/server.cnf
-RUN chmod 644 /etc/mysql/mariadb.conf.d/server.cnf
+COPY ./conf/server.cnf /etc/mysql/mariadb.conf.d/mysqld.cnf
+RUN chmod 644 /etc/mysql/mariadb.conf.d/mysqld.cnf
 
 RUN mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
 
