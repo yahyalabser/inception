@@ -11,8 +11,6 @@ RUN mkdir -p /var/run/mysqld /var/log/mysql \
 COPY ./conf/server.cnf /etc/mysql/mariadb.conf.d/mysqld.cnf
 RUN chmod 644 /etc/mysql/mariadb.conf.d/mysqld.cnf
 
-RUN mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
-
 COPY ./tools/script.sh /usr/local/bin/script.sh
 RUN chmod +x /usr/local/bin/script.sh
 
