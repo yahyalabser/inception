@@ -48,14 +48,14 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/yahyalb/data/wordpress
+      device: /home/ylabser/data/wordpress
 
   mariadb_db:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /home/yahyalb/data/mariadb
+      device: /home/ylabser/data/mariadb
 
 networks:
   docker-network:

@@ -1,4 +1,4 @@
-DATA_DIR	= /home/yahyalb/data
+DATA_DIR = /home/ylabser/data
 
 all:
 	@mkdir -p $(DATA_DIR)/wordpress $(DATA_DIR)/mariadb
@@ -12,6 +12,7 @@ clean: down
 	@docker volume prune -f
 
 fclean: clean
+	@docker volume rm srcs_mariadb_db srcs_wordpress_db
 	@sudo rm -rf $(DATA_DIR)/wordpress $(DATA_DIR)/mariadb
 
 re: fclean all
