@@ -42,7 +42,7 @@ inception/
 - `conf/server.cnf` sets `bind-address = 0.0.0.0` so the WordPress container can connect.
 - `tools/script.sh` runs at container startup:
   - On first boot it uses `mysqld --bootstrap` to create the database, user, and set the root password.
-  - A sentinel file `/var/lib/mysql/.initialized` prevents re-initialization on subsequent boots.
+  - The presence of `/var/lib/mysql/mysql` directory prevents re-initialization on subsequent boots.
   - After initialization it hands off to `exec mysqld`.
 
 ### wordpress
@@ -91,8 +91,8 @@ All containers share a single Docker bridge network `docker-network`. No contain
 
 | Volume name    | Mount point inside container | Host path                    |
 |----------------|------------------------------|------------------------------|
-| `wordpress_db` | `/var/www/html`              | `/home/yahyalb/data/wordpress` |
-| `mariadb_db`   | `/var/lib/mysql`             | `/home/yahyalb/data/mariadb`   |
+| `wordpress_db` | `/var/www/html`              | `/home/ylabser/data/wordpress` |
+| `mariadb_db`   | `/var/lib/mysql`             | `/home/ylabser/data/mariadb`   |
 
 Both volumes use `driver: local` with `type: none` / `o: bind` so that data persists on the host even after containers are removed.
 
@@ -105,16 +105,12 @@ Both volumes use `driver: local` with `type: none` / `o: bind` so that data pers
 
 ## Environment & Secrets Setup
 
-Before running the project, create the required credential files (all are gitignored):
+Before running the project, create the required credential file (gitignored):
 
 ```bash
-# 1. Create the .env file from the template in the README
+# Create the .env file from the template
 cp srcs/.env.example srcs/.env   # then fill in your values
-
-# 2. Create secret files (used as a reference; full Docker secrets require Swarm mode)
-echo "your_db_password"      > secrets/db_password.txt
-echo "your_root_password"    > secrets/db_root_password.txt
 ```
 
-Example files (`.example` suffix) are committed to the repository as templates. The real files (without `.example`) are gitignored and must be created locally.
+The `.env.example` file is committed to the repository as a template. The real `.env` file (without `.example`) is gitignored and must be created locally.
 
