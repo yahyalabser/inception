@@ -20,6 +20,21 @@ Browser ──HTTPS(443)──► nginx ──FastCGI(9000)──► wordpress �
 
 Each container is built from a custom `Dockerfile` based on `debian:bullseye`. No pre-built application images are used.
 
+## What to Push to GitHub
+
+**Push the source code — not a virtual machine.**
+
+| Push to GitHub ✅ | Do NOT push ❌ |
+|---|---|
+| `Makefile` | `.env` (contains passwords) |
+| `srcs/docker-compose.yml` | VM images (`.ova`, `.vdi`, `.vmdk`) |
+| `srcs/requirements/*/Dockerfile` | VM snapshots |
+| `srcs/requirements/*/conf/*` | Data directories (`/home/ylabser/data/`) |
+| `srcs/requirements/*/tools/*` | Docker image layers |
+| `srcs/.env.example` (placeholder only) | |
+
+During peer evaluation, the evaluator clones this repository on **their own VM/machine** and runs `make` to build and start all containers from scratch. No VM image or snapshot is submitted — only the source code.
+
 ## Instructions
 
 ### Prerequisites
@@ -40,9 +55,6 @@ cd inception
 
 # Copy and fill in credentials
 cp srcs/.env.example srcs/.env   # edit with your values
-cp secrets/db_password.txt.example       secrets/db_password.txt
-cp secrets/db_root_password.txt.example  secrets/db_root_password.txt
-cp secrets/credentials.txt.example       secrets/credentials.txt
 
 # Build and start all services
 make
@@ -102,7 +114,7 @@ In this project Docker is preferred because the three services (nginx, WordPress
 | Git safety     | Must be gitignored manually                    | Stored outside the image/compose build context |
 | Best for       | Non-sensitive config (domain name, ports)      | Passwords, API keys, TLS private keys          |
 
-In this project sensitive values (database passwords, WordPress credentials) are kept in `srcs/.env` which is gitignored, and example secret files are provided under `secrets/`. Using Docker secrets (Swarm mode) would add an extra layer of protection in production.
+In this project sensitive values (database passwords, WordPress credentials) are kept in `srcs/.env` which is gitignored. Using Docker secrets (Swarm mode) would add an extra layer of protection in production.
 
 ### Docker Network vs Host Network
 

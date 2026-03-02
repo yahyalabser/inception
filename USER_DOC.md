@@ -27,7 +27,7 @@ make
 ```
 
 This will:
-- Create the data directories at `/home/yahyalb/data/`.
+- Create the data directories at `/home/ylabser/data/`.
 - Build the three Docker images (nginx, wordpress, mariadb).
 - Start all containers.
 
