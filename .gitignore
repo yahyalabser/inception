@@ -1,1 +1,12 @@
 srcs/.env
+
+# VM image files — never commit these
+*.ova
+*.vdi
+*.vmdk
+*.vbox
+*.vbox-prev
+*.iso
+*.img
+*.qcow2
+*.snapshot

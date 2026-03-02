@@ -20,6 +20,21 @@ Browser ──HTTPS(443)──► nginx ──FastCGI(9000)──► wordpress �
 
 Each container is built from a custom `Dockerfile` based on `debian:bullseye`. No pre-built application images are used.
 
+## What to Push to GitHub
+
+**Push the source code — not a virtual machine.**
+
+| Push to GitHub ✅ | Do NOT push ❌ |
+|---|---|
+| `Makefile` | `.env` (contains passwords) |
+| `srcs/docker-compose.yml` | VM images (`.ova`, `.vdi`, `.vmdk`) |
+| `srcs/requirements/*/Dockerfile` | VM snapshots |
+| `srcs/requirements/*/conf/*` | Data directories (`/home/ylabser/data/`) |
+| `srcs/requirements/*/tools/*` | Docker image layers |
+| `srcs/.env.example` (placeholder only) | |
+
+During peer evaluation, the evaluator clones this repository on **their own VM/machine** and runs `make` to build and start all containers from scratch. No VM image or snapshot is submitted — only the source code.
+
 ## Instructions
 
 ### Prerequisites
