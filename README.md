@@ -38,9 +38,6 @@ Each container is built from a custom `Dockerfile` based on `debian:bullseye`. N
 git clone <repo-url> inception
 cd inception
 
-# Copy and fill in credentials
-cp srcs/.env.example srcs/.env
-
 # Build and start all services
 make
 
@@ -60,7 +57,7 @@ make
 
 ### Environment Variables
 
-All configuration lives in `srcs/.env` (not committed — see `.gitignore`):
+All configuration lives in `srcs/.env`:
 
 | Variable              | Description                      |
 |-----------------------|----------------------------------|
@@ -99,7 +96,7 @@ In this project Docker is preferred because the three services (nginx, WordPress
 | Git safety     | Must be gitignored manually                    | Stored outside the image/compose build context |
 | Best for       | Non-sensitive config (domain name, ports)      | Passwords, API keys, TLS private keys          |
 
-In this project sensitive values (database passwords, WordPress credentials) are kept in `srcs/.env` which is gitignored. Using Docker secrets (Swarm mode) would add an extra layer of protection in production.
+In this project sensitive values (database passwords, WordPress credentials) are kept in `srcs/.env`. Using Docker secrets (Swarm mode) would add an extra layer of protection in production.
 
 ### Docker Network vs Host Network
 
