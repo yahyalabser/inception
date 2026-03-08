@@ -103,14 +103,4 @@ Both volumes use `driver: local` with `type: none` / `o: bind` so that data pers
 - Containers must restart automatically on failure (`restart: on-failure`).
 - Passwords and secrets must not be stored in Dockerfiles; use environment variables via `.env`.
 
-## Environment & Secrets Setup
-
-Before running the project, create the required credential files (gitignored):
-
-```bash
-# 1. Create the .env file from the template
-cp srcs/.env.example srcs/.env   # then fill in your values
-```
-
-The `.env.example` file is committed to the repository as a template. The real `.env` file (without `.example`) is gitignored and must be created locally.
 
