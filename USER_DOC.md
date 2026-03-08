@@ -97,6 +97,3 @@ If a container has exited unexpectedly, inspect its last logs:
 ```bash
 docker compose -f srcs/docker-compose.yml logs --tail=50 <service>
 ```
-docker compose -f srcs/docker-compose.yml logs --tail=50 <service>
-
-```
