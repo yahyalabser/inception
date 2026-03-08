@@ -39,10 +39,7 @@ git clone <repo-url> inception
 cd inception
 
 # Copy and fill in credentials
-cp srcs/.env.example srcs/.env   # edit with your values
-cp secrets/db_password.txt.example       secrets/db_password.txt
-cp secrets/db_root_password.txt.example  secrets/db_root_password.txt
-cp secrets/credentials.txt.example       secrets/credentials.txt
+cp srcs/.env.example srcs/.env
 
 # Build and start all services
 make
@@ -102,7 +99,7 @@ In this project Docker is preferred because the three services (nginx, WordPress
 | Git safety     | Must be gitignored manually                    | Stored outside the image/compose build context |
 | Best for       | Non-sensitive config (domain name, ports)      | Passwords, API keys, TLS private keys          |
 
-In this project sensitive values (database passwords, WordPress credentials) are kept in `srcs/.env` which is gitignored, and example secret files are provided under `secrets/`. Using Docker secrets (Swarm mode) would add an extra layer of protection in production.
+In this project sensitive values (database passwords, WordPress credentials) are kept in `srcs/.env` which is gitignored. Using Docker secrets (Swarm mode) would add an extra layer of protection in production.
 
 ### Docker Network vs Host Network
 
