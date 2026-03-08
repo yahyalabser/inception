@@ -38,6 +38,11 @@ Each container is built from a custom `Dockerfile` based on `debian:bullseye`. N
 git clone <repo-url> inception
 cd inception
 
+# Create the environment file from the provided template
+cp srcs/.env.example srcs/.env
+# Edit srcs/.env and replace placeholder values with your own credentials
+# (see the Environment Variables section below for details)
+
 # Build and start all services
 make
 
@@ -57,7 +62,36 @@ make
 
 ### Environment Variables
 
-All configuration lives in `srcs/.env`:
+All configuration lives in `srcs/.env`. This file is **not** committed to the repository (it is listed in `.gitignore`) because it contains sensitive credentials.
+
+A ready-to-use template is provided at `srcs/.env.example`. After cloning the repository, copy it and fill in your own values:
+
+```bash
+cp srcs/.env.example srcs/.env
+```
+
+The file must be located at **`srcs/.env`** (next to `docker-compose.yml`) and must contain the following variables:
+
+```env
+# Domain
+DOMAIN_NAME=your_login.42.fr
+
+# MariaDB
+MYSQL_ROOT_PASSWORD=change_me_root
+MYSQL_DATABASE=wordpress
+MYSQL_USER=your_db_user
+MYSQL_PASSWORD=change_me_db
+
+# WordPress admin account
+WP_ADMIN=your_wp_admin
+WP_ADMIN_PASS=change_me_admin
+WP_ADMIN_EMAIL=admin@your_login.42.fr
+
+# WordPress secondary user
+WP_USER=your_wp_user
+WP_USER_EMAIL=user@example.com
+WP_USER_PASS=change_me_user
+```
 
 | Variable              | Description                      |
 |-----------------------|----------------------------------|
@@ -72,6 +106,8 @@ All configuration lives in `srcs/.env`:
 | `WP_USER`             | Additional WordPress user        |
 | `WP_USER_EMAIL`       | Additional WordPress user email  |
 | `WP_USER_PASS`        | Additional WordPress user pass   |
+
+> **Note:** Never commit `srcs/.env` to version control. Keep your passwords safe and use strong, unique values.
 
 ## Project Description
 
