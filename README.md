@@ -73,6 +73,32 @@ All configuration lives in `srcs/.env`:
 | `WP_USER_EMAIL`       | Additional WordPress user email  |
 | `WP_USER_PASS`        | Additional WordPress user pass   |
 
+### Creating the `.env` file
+
+The `.env` file is not tracked by git (intentionally — it contains passwords).  
+After cloning, create it from scratch:
+
+```bash
+cat > srcs/.env << EOF
+DOMAIN_NAME=ylabser.42.fr
+
+MYSQL_ROOT_PASSWORD=your_root_password
+MYSQL_DATABASE=wordpress
+MYSQL_USER=your_db_user
+MYSQL_PASSWORD=your_db_password
+
+WP_ADMIN=ylabser
+WP_ADMIN_PASS=your_admin_password
+WP_ADMIN_EMAIL=admin@example.com
+
+WP_USER=adam
+WP_USER_EMAIL=adam@example.com
+WP_USER_PASS=your_user_password
+EOF
+```
+
+Then replace each `your_*` value with your actual passwords before running `make`.
+
 ## Project Description
 
 ### Virtual Machines vs Docker
